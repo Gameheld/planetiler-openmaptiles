@@ -123,6 +123,14 @@ public class Building implements
   public void process(Tables.OsmBuildingPolygon element, FeatureCollector features) {
     Boolean hide3d = null;
     var relations = element.source().relationInfo(BuildingRelationInfo.class);
+
+    // Exclude Aachen cathedral from 3D buildings
+    for (var relation : relations) {
+      if (relation.relation().id() == 14344696) {
+        hide3d = true;
+      }
+    }
+
     for (var relation : relations) {
       if ("outline".equals(relation.role())) {
         hide3d = true;
